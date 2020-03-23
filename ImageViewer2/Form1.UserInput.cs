@@ -61,18 +61,30 @@ namespace ImageViewer2
         // event handler for when an arrow key is pressed
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-
-            //TODO: On Keys.Enter check search bar for text and then search
-            
-            if (keyData == Keys.Left)
+            if(textBox1.Focused)
             {
-                manager.ShowPreviousImage();
-                pictureBox1.Invalidate();
+                if(textBox1.Text.Length > 0)
+                {
+                    // search
+                }
             }
-            if (keyData == Keys.Right)
+            else
             {
-                manager.ShowNextImage();
-                pictureBox1.Invalidate();
+                if (keyData == Keys.Left)
+                {
+                    manager.ShowPreviousImage();
+                    pictureBox1.Invalidate();
+                }
+                if (keyData == Keys.Right)
+                {
+                    manager.ShowNextImage();
+                    pictureBox1.Invalidate();
+                }
+                if (keyData == Keys.O)
+                {
+                    manager.OpenNewFile();
+                    pictureBox1.Invalidate();
+                }
             }
 
             update_form_text();

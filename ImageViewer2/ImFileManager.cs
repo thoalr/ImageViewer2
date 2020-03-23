@@ -33,7 +33,6 @@ namespace ImageViewer2
         
 
         // allowed exentsions
-        //TODO: Find out which fileformats Bitmap supports
         // BMP, GIF, EXIF, JPG, PNG and TIFF.
         //TODO: Add webp support https://archive.codeplex.com/?p=webp
         /*
@@ -47,8 +46,6 @@ namespace ImageViewer2
          image_codecs: Built-in ICO Codec, mime: image/x-icon, extension: *.ICO
         */
         static readonly string[] extensions = new string[] { ".jpg", ".jpeg", ".png", ".gif", ".jfif" };
-
-        //TODO: Add error handling for invalid fileformat
 
 
         //FileSystemWatcher dir_watch;

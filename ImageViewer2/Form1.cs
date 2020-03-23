@@ -94,13 +94,14 @@ namespace ImageViewer2
         // gif previous frame
         private void button5_Click(object sender, EventArgs e)
         {
-
+            manager.image.GifPreviousFrame();
         }
 
         // gif next frame
         private void button6_Click(object sender, EventArgs e)
         {
 
+            manager.image.GifNextFrame();
         }
 
         

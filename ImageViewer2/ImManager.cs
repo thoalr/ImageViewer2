@@ -187,6 +187,26 @@ namespace ImageViewer2
         }
 
         // change frame function
+        public void GifNextFrame()
+        {
+            if (isGif && !gif_timer.Enabled)
+            {
+                currentFrame = (currentFrame + 1) % gifFrameCount;
+                Image.SelectActiveFrame(FrameDimension.Time, currentFrame);
+                canvas.Invalidate();
+            }
+        }
+
+        public void GifPreviousFrame()
+        {
+            if (isGif && !gif_timer.Enabled)
+            {
+                currentFrame = (currentFrame - 1) % gifFrameCount;
+                Image.SelectActiveFrame(FrameDimension.Time, currentFrame);
+                canvas.Invalidate();
+            }
+        }
+
 
         // change speed
         public void SetGifSpeed(int val)
