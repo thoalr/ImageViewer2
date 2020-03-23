@@ -117,6 +117,24 @@ namespace ImageViewer2
             update_form_text();
         }
 
-        
+        // start pause gif
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (manager.image.IsPlaying())
+            {
+                manager.image.StopGif();
+                button8.Text = "Play";
+            }
+            else
+            {
+                manager.image.StartGif();
+                button8.Text = "Pause";
+            }
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            manager.image.SetGifSpeed((int)numericUpDown1.Value);
+        }
     }
 }

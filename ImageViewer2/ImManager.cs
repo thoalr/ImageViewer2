@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,20 +27,23 @@ namespace ImageViewer2
         //private Point image_offset = new Point(0, 0);
 
         // current zoom (% of screen height and/or width)
-        double zoom = 100;        // The zoom of the image
-        double max_zoom = 3000;      // The maximum allowed zoom
-        double min_zoom = 5;         // The minimum allowed zoom
-        double zoom_step = 1.2;
+        private double zoom = 100;        // The zoom of the image
+        private readonly double max_zoom = 3000;      // The maximum allowed zoom
+        private readonly double min_zoom = 5;         // The minimum allowed zoom
+        private double zoom_step = 1.2;
 
         // is gif
         bool isGif = false;
 
         // speed
-        int gif_speed = 16;
+        private int gif_speed = 100;
 
         // gif timer
-        Timer gif_timer;
+        private Timer gif_timer;
 
+        private FrameDimension fdimension;
+        private int gifFrameCount = 1;  // Number of frames in the GIF image
+        private int currentFrame = 0;   // Current frame displayed of GIF image
 
         // canvas reference
         PictureBox canvas;
@@ -50,8 +54,9 @@ namespace ImageViewer2
 
             this.canvas = picturebox;
             disp_rec = new Rectangle(0, 0, 0, 0);
+            gif_timer = new Timer();
+            gif_timer.Tick += TimerTick;
 
-            //this.canvas = picturebox;
             picturebox.Paint += picturebox_Paint;
         }
 
@@ -61,7 +66,8 @@ namespace ImageViewer2
             this.canvas = picturebox;
             disp_rec = new Rectangle(0, 0, 0, 0);
 
-            //this.canvas = picturebox;
+            gif_timer = new Timer();
+            gif_timer.Tick += TimerTick;
             picturebox.Paint += picturebox_Paint;
 
             Change_Image(file);
@@ -84,35 +90,15 @@ namespace ImageViewer2
             graphic.CompositingQuality = CompositingQuality.HighQuality;
             */
 
-            e.Graphics.DrawImage(this.Image, disp_rec, im_rec, GraphicsUnit.Pixel);   
+            e.Graphics.DrawImage(this.Image, disp_rec, im_rec, GraphicsUnit.Pixel);
         }
-        /*
-        public void Change_Image(String file)
-        {
-            try
-            {
-                Image = (Bitmap)Bitmap.FromFile(file);
-                if(Path.GetExtension(file).ToLower().Equals(".gif"))
-                {
-                    isGif = true;
-                }
-                else
-                {
-                    isGif = false;
-                }
-            }
-            catch (Exception e)
-            {
-                Image = null;
-            }
-        }
-        */
+
+
         public void Change_Image(FileInfo file)
         {
+            gif_timer.Stop();
             try
             {
-                if (isGif) gif_timer.Stop();
-
                 Image = (Bitmap)Bitmap.FromFile(file.FullName);
                 im_rec = new Rectangle(0, 0, Image.Width, Image.Height);
                 rezise_reset();
@@ -120,12 +106,14 @@ namespace ImageViewer2
                 if (file.Extension.ToLower().Equals(".gif"))
                 {
                     isGif = true;
+                    setGIF();
                 }
                 else
                 {
                     isGif = false;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 MessageBox.Show("Error when opening image", e.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Image = null;
@@ -135,15 +123,86 @@ namespace ImageViewer2
 
         // play gif
         // if gif
+        void setGIF()
+        {
+            gif_timer.Stop();
+            if (isGif)
+            {
+                currentFrame = 0;
+                //fdimension = new FrameDimension(Image.FrameDimensionsList[0]);
 
+                gifFrameCount = Image.GetFrameCount(FrameDimension.Time);
+
+                Image.SelectActiveFrame(FrameDimension.Time, 0);
+                
+                //gifFrameCount = Image.GetFrameCount(fdimension);
+
+                /*
+                Image.SelectActiveFrame(fdimension, currentFrame);
+
+
+                // gif_speed = Image.GetPropertyItem(0x5100).Value;
+                // BitConverter.ToInt32(times, 4*i); // size of byte array is 4*framecount in Timedimension
+                PropertyItem[] t = Image.PropertyItems;
+                for (int i = 0; i < t.Length; i++)
+                {
+                    if (t[i].Id == 0x5100) // Timing data
+                    {
+                        interval = (t[i].Value[0] + t[i].Value[1] * 256);
+                        isGIF = true;
+                    }
+                }
+                if (!isGIF) return;
+                // The file has a gif extension but no timing data so it will be displayed as a static image
+                */
+
+                //isGIF = true;
+                //gIFPropertyToolStripMenuItem.Enabled = true;
+
+                gif_timer.Interval = gif_speed;
+                gif_timer.Start();
+            }
+        }
 
         // play/pause
+        private void TimerTick(object sender, EventArgs e)
+        {
+            currentFrame = (currentFrame + 1) % gifFrameCount;
+            Image.SelectActiveFrame(FrameDimension.Time, currentFrame);
+            canvas.Invalidate();
+        }
 
+
+        public void StopGif()
+        {
+            if (isGif)
+            {
+                gif_timer.Stop();
+
+            }
+        }
+        public void StartGif()
+        {
+            if (isGif) gif_timer.Start();
+        }
 
         // change frame function
 
         // change speed
+        public void SetGifSpeed(int val)
+        {
+            StopGif();
 
+            gif_speed = val;
+            gif_timer.Interval = val;
+
+            StartGif();
+        }
+
+        public int GetGifSpeed() { return gif_speed; }
+
+        public bool IsGIF() { return isGif; } 
+        public bool IsPlaying() { return gif_timer.Enabled; }
 
         // zoom function
         // zoom and move image so that it zooms in on cursor location if image size is bigger than screen height or width
@@ -152,7 +211,7 @@ namespace ImageViewer2
             //if (isGIF) timer1.Stop();
             double oldzoom = zoom;
             zoom = e.Delta < 0 ? zoom / zoom_step : zoom * zoom_step;
-            if (zoom > max_zoom || zoom < min_zoom )
+            if (zoom > max_zoom || zoom < min_zoom)
             {
                 zoom = oldzoom;
                 return;
@@ -178,7 +237,7 @@ namespace ImageViewer2
 
             int x_delta = (int)(width_delta * mouse_rx / disp_rec.Width);
             int y_delta = (int)(height_delta * mouse_ry / disp_rec.Height);
-            
+
             disp_rec.Height = (int)new_height;
             disp_rec.Width = (int)new_width;
             move(x_delta, y_delta);
@@ -197,9 +256,9 @@ namespace ImageViewer2
         // image only moves in dimension were image size is bigger than screen
         public void move(int dx, int dy)
         {
-            if(disp_rec.Width > canvas.Width) disp_rec.X += dx;
+            if (disp_rec.Width > canvas.Width) disp_rec.X += dx;
             else disp_rec.X = ((canvas.Width - disp_rec.Width) / 2);
-            
+
             if (disp_rec.Height > canvas.Height) disp_rec.Y += dy;
             else disp_rec.Y = ((canvas.Height - disp_rec.Height) / 2);
             /*
@@ -280,7 +339,7 @@ namespace ImageViewer2
             disp_rec.X = ((canvas.Width - disp_rec.Width) / 2);
             disp_rec.Y = ((canvas.Height - disp_rec.Height) / 2);
         }
-        
+
         private Size rezise_to(Size s)
         {
             return disp_rec.Size = s;

@@ -108,7 +108,6 @@ namespace ImageViewer2
         // open file dialog
         public void OpenNewFile()
         {
-            //if (isGIF) timer1.Stop();
             
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
@@ -118,7 +117,8 @@ namespace ImageViewer2
                 if (file_list != null)
                 {
                     last_file = this.GetCurrentFile();
-                    openFileDialog1.FileName = last_file.FullName;
+                    openFileDialog1.FileName = last_file.Name;
+                    
                 }
 
                 openFileDialog1.InitialDirectory = last_dir.FullName;
@@ -146,9 +146,24 @@ namespace ImageViewer2
                         image.Change_Image(GetCurrentFile());
                         file_ext = GetCurrentFile().Extension;
                     }
+                    else
+                    {
+                        return;
+                    }
                 } while (!ValidExtension(file_ext));
             }
         }
+
+
+        private async Task SendKey(string FileName)
+        {
+            await Task.Delay(250); // Wait for the Dialog shown at the screen
+            SendKeys.SendWait("+{TAB}"); // First Shift + Tab moves to Header of DataGridView of OpenFileDialog
+            SendKeys.SendWait("+{TAB}"); // Second Shift + Tab moves to first item of list
+            SendKeys.SendWait(FileName); // after sending filename will directly moves it to the file that we are looking for
+        }
+
+
         /*
         private void SetDirWatcher(DirectoryInfo dir)
         {
