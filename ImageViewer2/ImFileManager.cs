@@ -73,7 +73,7 @@ namespace ImageViewer2
         // valid fileextension
         private bool ValidExtension(String ext)
         {
-            if (extensions.Contains(ext)) return true;
+            if (extensions.Contains(ext.ToLower())) return true;
             return false;
         }
 
@@ -177,7 +177,7 @@ namespace ImageViewer2
             if (!file.Directory.Exists) throw new System.Exception("Directory does not exist");
 
             // Get files and order them
-            var tmp = file.Directory.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => extensions.Contains(s.Extension));
+            var tmp = file.Directory.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => extensions.Contains(s.Extension.ToLower()));
             /*
             if (nameToolStripMenuItem.Checked)
             {
@@ -221,7 +221,8 @@ namespace ImageViewer2
         // next image
         public void ShowNextImage()
         {
-            current_file_index = current_file_index + 1 % working_list.Length;
+            if (file_list == null || working_list == null) return;
+            current_file_index = (current_file_index + 1) % (working_list.Length);
             image.Change_Image(GetCurrentFile());
         }
 
@@ -229,7 +230,8 @@ namespace ImageViewer2
         // prev image
         public void ShowPreviousImage()
         {
-            current_file_index = current_file_index - 1 % working_list.Length;
+            if (file_list == null || working_list == null) return;
+            current_file_index = (current_file_index - 1 + working_list.Length) % (working_list.Length);
             image.Change_Image(GetCurrentFile());
         }
 
@@ -248,7 +250,7 @@ namespace ImageViewer2
         public String get_form_text()
         {
             if (working_list == null || file_list == null || image == null) return "";
-            else return "[" + current_file_index + "/" + working_list.Length + "] " + file_list[working_list[current_file_index]].FullName + " - Zoom: " + image.get_zoom();
+            else return "[" + (current_file_index + 1) + "/" + working_list.Length + "] " + file_list[working_list[current_file_index]].FullName + " - Zoom: " + image.get_zoom();
         }
 
 
