@@ -47,6 +47,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button10 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -55,6 +56,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button10);
             this.panel1.Controls.Add(this.button9);
             this.panel1.Controls.Add(this.button8);
             this.panel1.Controls.Add(this.button7);
@@ -82,18 +84,18 @@
             this.button9.Size = new System.Drawing.Size(52, 23);
             this.button9.TabIndex = 13;
             this.button9.Text = "Refresh";
-            this.toolTip1.SetToolTip(this.button9, "Refresh directory");
+            this.toolTip1.SetToolTip(this.button9, "(R)efresh directory");
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(449, 0);
+            this.button8.Location = new System.Drawing.Point(497, 0);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(45, 23);
             this.button8.TabIndex = 12;
             this.button8.Text = "Pause";
-            this.toolTip1.SetToolTip(this.button8, "Pause/Play GIF");
+            this.toolTip1.SetToolTip(this.button8, "Pause/Play GIF (v)");
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
@@ -104,7 +106,7 @@
             this.button7.Size = new System.Drawing.Size(41, 23);
             this.button7.TabIndex = 11;
             this.button7.Text = "Open";
-            this.toolTip1.SetToolTip(this.button7, "Open new file");
+            this.toolTip1.SetToolTip(this.button7, "(O)pen new file");
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
@@ -120,29 +122,29 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(544, 0);
+            this.button6.Location = new System.Drawing.Point(592, 0);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(40, 23);
             this.button6.TabIndex = 9;
             this.button6.Text = "Next";
-            this.toolTip1.SetToolTip(this.button6, "Show next frame of GIF");
+            this.toolTip1.SetToolTip(this.button6, "Show next frame of GIF (n)");
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(499, 0);
+            this.button5.Location = new System.Drawing.Point(547, 0);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(40, 23);
             this.button5.TabIndex = 8;
             this.button5.Text = "Prev";
-            this.toolTip1.SetToolTip(this.button5, "Show previous frame of GIF");
+            this.toolTip1.SetToolTip(this.button5, "Show previous frame of GIF (b)");
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(327, 0);
+            this.button4.Location = new System.Drawing.Point(375, 0);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(50, 23);
             this.button4.TabIndex = 7;
@@ -152,22 +154,23 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(266, 0);
+            this.button3.Location = new System.Drawing.Point(314, 0);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(55, 23);
             this.button3.TabIndex = 6;
             this.button3.Text = "Rename";
+            this.toolTip1.SetToolTip(this.button3, "Rename curren image (F2)");
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(207, 0);
+            this.button2.Location = new System.Drawing.Point(255, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 23);
             this.button2.TabIndex = 5;
             this.button2.Text = "Next";
-            this.toolTip1.SetToolTip(this.button2, "Show next image");
+            this.toolTip1.SetToolTip(this.button2, "Show next image (right arrow)");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -187,7 +190,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(589, 1);
+            this.numericUpDown1.Location = new System.Drawing.Point(637, 1);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -212,7 +215,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(420, 5);
+            this.label1.Location = new System.Drawing.Point(468, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(24, 13);
             this.label1.TabIndex = 2;
@@ -220,12 +223,12 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(161, 0);
+            this.button1.Location = new System.Drawing.Point(209, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(40, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Prev";
-            this.toolTip1.SetToolTip(this.button1, "Show previous image");
+            this.toolTip1.SetToolTip(this.button1, "Show previous image (left arrow)");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -265,6 +268,16 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(148, 0);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(40, 23);
+            this.button10.TabIndex = 14;
+            this.button10.Text = "Seek";
+            this.toolTip1.SetToolTip(this.button10, "(S)eek to index");
+            this.button10.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -306,6 +319,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button10;
     }
 }
 

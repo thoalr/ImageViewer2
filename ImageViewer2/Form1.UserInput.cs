@@ -58,6 +58,11 @@ namespace ImageViewer2
 
         }
 
+
+        // TODO: rename when F2 is pressed
+        // TODO: delete when Delete key is pressed
+        // TODO: change numeric updown and gif delay on up down arrow keys
+
         // event handler for when an arrow key is pressed
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

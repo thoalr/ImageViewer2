@@ -40,5 +40,23 @@ namespace ImageViewer2
         {
             this.Close();
         }
+
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (textBox1.Focused)
+            {
+                if (textBox1.Text.Length > 0 && keyData == Keys.Enter)
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+
+                }
+            }
+           
+            return base.ProcessCmdKey(ref msg, keyData); // Forward the event to the default handler
+        }
+
+
     }
 }

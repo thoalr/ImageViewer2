@@ -288,23 +288,52 @@ namespace ImageViewer2
                 }
             }
 
+        }
 
+
+        // TODO: Add delete image functionality
+        // Delete current image
+
+
+
+
+        // TODO: Add seek functionality
+        // Seek into current working_list to any position
+
+
+
+
+        // TODO: Add comparer like StrCmpLogicalW
+        // https://gist.github.com/mstum/63a6e3e8cf54e8ae55b6aa28ca6f20c5
+
+        /*  public class LogicalComparer : IComparer<string>
+        {
+            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+            public static extern int StrCmpLogicalW(string x, string y);
+
+            public int Compare(string x, string y)
+            {
+                return StrCmpLogicalW(x, y);
             }
+        }
+
+    */
 
 
 
-        // search current directory list and update current working list
-        // if current image not in new list show first image in list
+
+    // search current directory list and update current working list
+    // if current image not in new list show first image in list
 
 
 
-        // clear search
+    // clear search
 
 
 
-        // text to display in titlebar of from
-        // [i/n] - image path - Zoom: zoom_value
-        public String get_form_text()
+    // text to display in titlebar of from
+    // [i/n] - image path - Zoom: zoom_value
+    public String get_form_text()
         {
             if (working_list == null || file_list == null || image == null) return "";
             else return "[" + (current_file_index + 1) + "/" + working_list.Length + "] " + file_list[working_list[current_file_index]].FullName + " - Zoom: " + image.get_zoom();
