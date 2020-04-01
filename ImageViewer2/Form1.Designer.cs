@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button10 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -76,6 +76,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(984, 23);
             this.panel1.TabIndex = 0;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(148, 0);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(40, 23);
+            this.button10.TabIndex = 14;
+            this.button10.Text = "Seek";
+            this.toolTip1.SetToolTip(this.button10, "(S)eek to index");
+            this.button10.UseVisualStyleBackColor = true;
             // 
             // button9
             // 
@@ -190,7 +200,7 @@
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(637, 1);
+            this.numericUpDown1.Location = new System.Drawing.Point(637, 2);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -235,9 +245,10 @@
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(823, 0);
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(823, 1);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(158, 20);
+            this.textBox1.Size = new System.Drawing.Size(158, 21);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -268,16 +279,6 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(148, 0);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(40, 23);
-            this.button10.TabIndex = 14;
-            this.button10.Text = "Seek";
-            this.toolTip1.SetToolTip(this.button10, "(S)eek to index");
-            this.button10.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
