@@ -59,30 +59,79 @@ namespace ImageViewer2
 
         private void update_form_text()
         {
-            this.Text = "ImageViewer - " + manager.get_form_text();
+            Text = "ImageViewer - " + manager.get_form_text();
         }
 
-
-        // Prev image
-        private void button1_Click(object sender, EventArgs e)
+        // Previous image
+        private void prev_image()
         {
             manager.ShowPreviousImage();
             pictureBox1.Invalidate();
             update_form_text();
         }
-
-        // next image
-        private void button2_Click(object sender, EventArgs e)
+        // Next image
+        private void next_image()
         {
             manager.ShowNextImage();
             pictureBox1.Invalidate();
             update_form_text();
         }
 
+        // Open new image from filedialog
+        private void open_new_image()
+        {
+            manager.OpenNewFile();
+            pictureBox1.Invalidate();
+            update_form_text();
+        }
+
+
+
+        // GIF control
+        // Start stop
+        private void gif_play_pause()
+        {
+            if (manager.image.IsPlaying())
+            {
+                manager.image.StopGif();
+                button8.Text = "Play";
+            }
+            else
+            {
+                manager.image.StartGif();
+                button8.Text = "Pause";
+            }
+        }
+
+        // Next frame
+        private void gif_prev_frame() { manager.image.GifNextFrame(); }
+
+        // Previous frame
+        private void gif_next_frame() { manager.image.GifPreviousFrame(); }
+
+        // Set delay between frames to value
+        private void gif_set_delay(int delay)
+        {
+            manager.image.SetGifSpeed(delay);
+        }
+
+
+        // Prev image
+        private void button1_Click(object sender, EventArgs e)
+        {
+            prev_image();
+        }
+
+        // next image
+        private void button2_Click(object sender, EventArgs e)
+        {
+            next_image();
+        }
+
         // Rename current image
         private void button3_Click(object sender, EventArgs e)
         {
-            // open dialog box
+            manager.RenameImage();
         }
 
         // delete current image
@@ -113,29 +162,23 @@ namespace ImageViewer2
         // open new image by selecting from openfiledialog
         private void button7_Click(object sender, EventArgs e)
         {
-            manager.OpenNewFile();
-            pictureBox1.Invalidate();
-            update_form_text();
+            open_new_image();
         }
 
         // start pause gif
         private void button8_Click(object sender, EventArgs e)
         {
-            if (manager.image.IsPlaying())
-            {
-                manager.image.StopGif();
-                button8.Text = "Play";
-            }
-            else
-            {
-                manager.image.StartGif();
-                button8.Text = "Pause";
-            }
+            gif_play_pause();
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            manager.image.SetGifSpeed((int)numericUpDown1.Value);
+            gif_set_delay((int)numericUpDown1.Value);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            manager.RefreshFileList();
         }
     }
 }

@@ -203,6 +203,7 @@ namespace ImageViewer2
             //imagefilepath = file_list[working_list[list_index]];
         }
 
+        // return index of file in working_list
         private int get_working_index(FileInfo file)
         {
             current_file_index = 0;
@@ -234,6 +235,62 @@ namespace ImageViewer2
             current_file_index = (current_file_index - 1 + working_list.Length) % (working_list.Length);
             image.Change_Image(GetCurrentFile());
         }
+
+        // Refresh file list
+        public void RefreshFileList()
+        {
+            if (file_list == null || working_list == null) return;
+            FileInfo tmp = GetCurrentFile();
+            GetFileList(tmp);
+            //get_working_index(tmp); called by GetFileList(file)
+        }
+
+
+        // Rename current image
+        public void RenameImage()
+        {
+            if (file_list == null || working_list == null) return;
+            FileInfo tmp = GetCurrentFile();
+
+            using(RenameForm form = new RenameForm())
+            {
+                form.FileName = tmp.Name;
+                
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+
+                    FileInfo newfile = new FileInfo(tmp.DirectoryName + @"\" + form.FileName);
+                    
+                    if (newfile.Exists)
+                    {
+                        MessageBox.Show("New file name already exists");
+                        return;
+                    }
+
+                    image.DisposeImage();
+
+                    try
+                    {
+                        tmp.MoveTo(newfile.FullName);
+
+                        GetFileList(newfile);
+
+                        image.Change_Image(GetCurrentFile());
+                    }
+                    catch (Exception e)
+                    {
+                        image.Change_Image(tmp);
+                    }
+
+
+                    //GetFileList(newfile); // refresh
+
+                }
+            }
+
+
+            }
+
 
 
         // search current directory list and update current working list

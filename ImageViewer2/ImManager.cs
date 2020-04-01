@@ -99,6 +99,8 @@ namespace ImageViewer2
             gif_timer.Stop();
             try
             {
+                if (Image != null) Image.Dispose();
+                
                 Image = (Bitmap)Bitmap.FromFile(file.FullName);
                 im_rec = new Rectangle(0, 0, Image.Width, Image.Height);
                 rezise_reset();
@@ -119,6 +121,16 @@ namespace ImageViewer2
                 Image = null;
             }
         }
+
+        // dispose image freeing file
+        public void DisposeImage()
+        {
+            if (Image == null) return;
+
+            isGif = false;
+            Image.Dispose();
+        }
+
 
 
         // play gif
