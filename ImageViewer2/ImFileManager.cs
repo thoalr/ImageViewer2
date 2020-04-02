@@ -304,7 +304,6 @@ namespace ImageViewer2
         }
 
 
-        // TODO: Add delete image functionality
         // Delete current image
         public void DeleteImage()
         {

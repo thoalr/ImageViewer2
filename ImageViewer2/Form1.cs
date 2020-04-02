@@ -132,12 +132,15 @@ namespace ImageViewer2
         private void button3_Click(object sender, EventArgs e)
         {
             manager.RenameImage();
+            update_form_text();
         }
 
         // delete current image
         private void button4_Click(object sender, EventArgs e)
         {
             manager.DeleteImage();
+            pictureBox1.Invalidate();
+            update_form_text();
         }
 
         // gif previous frame
