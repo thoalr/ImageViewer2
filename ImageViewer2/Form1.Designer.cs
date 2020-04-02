@@ -86,6 +86,7 @@
             this.button10.Text = "Seek";
             this.toolTip1.SetToolTip(this.button10, "(S)eek to index");
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button9
             // 

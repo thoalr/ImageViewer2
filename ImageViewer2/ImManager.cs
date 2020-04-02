@@ -54,6 +54,7 @@ namespace ImageViewer2
 
             this.canvas = picturebox;
             disp_rec = new Rectangle(0, 0, 0, 0);
+
             gif_timer = new Timer();
             gif_timer.Tick += TimerTick;
 
@@ -68,6 +69,7 @@ namespace ImageViewer2
 
             gif_timer = new Timer();
             gif_timer.Tick += TimerTick;
+
             picturebox.Paint += picturebox_Paint;
 
             Change_Image(file);
@@ -126,7 +128,7 @@ namespace ImageViewer2
         public void DisposeImage()
         {
             if (Image == null) return;
-
+            if (isGif) gif_timer.Stop();
             isGif = false;
             Image.Dispose();
         }

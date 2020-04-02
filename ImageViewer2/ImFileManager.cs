@@ -13,15 +13,18 @@ namespace ImageViewer2
         // list or array of images from current directory
         FileInfo[] file_list;
 
+        // TODO: consider using List<> instead of arrays
+        //List<FileInfo> list_files;
+
         // current working list as array of indeces into directory list
         // to allow for searching
-        int[] working_list;
+        int[] search_list;
 
         // current index into working list
         int current_file_index = 0;
 
         // current directory
-       // DirectoryInfo currentDir = new DirectoryInfo(@"C:\");
+        // DirectoryInfo currentDir = new DirectoryInfo(@"C:\");
 
         // current image
         //FileInfo imagefilepath;
@@ -30,7 +33,7 @@ namespace ImageViewer2
 
         // is current image gif
         //bool IsGif = false;
-        
+
 
         // allowed exentsions
         // BMP, GIF, EXIF, JPG, PNG and TIFF.
@@ -52,11 +55,13 @@ namespace ImageViewer2
 
         public ImFileManager(PictureBox pictureBox)
         {
+            //list_files = new List<FileInfo>();
+
             image = new ImManager(pictureBox);
             OpenNewFile();
         }
 
-        public ImFileManager(FileInfo image_file, PictureBox pictureBox) 
+        public ImFileManager(FileInfo image_file, PictureBox pictureBox)
         {
             //this.imagefilepath = image_file;
 
@@ -77,11 +82,16 @@ namespace ImageViewer2
             return false;
         }
 
+        private bool IsUninitialized()
+        {
+            return file_list == null || search_list == null;
+        }
+
 
         // open image
-        public void OpenImage(FileInfo file) 
+        public void OpenImage(FileInfo file)
         {
-            if(file.Exists && ValidExtension(file.Extension) )
+            if (file.Exists && ValidExtension(file.Extension))
             {
                 image.Change_Image(file);
             }
@@ -89,23 +99,23 @@ namespace ImageViewer2
             {
                 GetFileList(file);
             }
-        
+
         }
 
         private FileInfo GetCurrentFile()
         {
-            return file_list[working_list[current_file_index]];
+            return file_list[search_list[current_file_index]];
         }
 
         private FileInfo GetFile(int i)
         {
-            return file_list[working_list[i]];
+            return file_list[search_list[i]];
         }
 
         // open file dialog
         public void OpenNewFile()
         {
-            
+
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
                 DirectoryInfo last_dir = file_list == null ? new DirectoryInfo(@"C:\") : file_list[0].Directory;
@@ -115,7 +125,7 @@ namespace ImageViewer2
                 {
                     last_file = this.GetCurrentFile();
                     openFileDialog1.FileName = last_file.Name;
-                    
+
                 }
 
                 openFileDialog1.InitialDirectory = last_dir.FullName;
@@ -133,7 +143,7 @@ namespace ImageViewer2
                 {
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        
+
                         FileInfo new_file = new FileInfo(openFileDialog1.FileName);
 
                         DirectoryInfo new_dir = new_file.Directory;
@@ -196,18 +206,18 @@ namespace ImageViewer2
             */
             file_list = tmp.ToArray();
 
-            working_list = Enumerable.Range(0, file_list.Length).ToArray();
+            search_list = Enumerable.Range(0, file_list.Length).ToArray();
 
             // Find index of current image
             get_working_index(file);
-            //imagefilepath = file_list[working_list[list_index]];
+            //imagefilepath = file_list[search_list[list_index]];
         }
 
-        // return index of file in working_list
+        // return index of file in search_list
         private int get_working_index(FileInfo file)
         {
             current_file_index = 0;
-            for (int i = 0; i < working_list.Length; i++)
+            for (int i = 0; i < search_list.Length; i++)
             {
                 if (this.GetFile(i).FullName.Equals(file.FullName))
                 {
@@ -222,8 +232,8 @@ namespace ImageViewer2
         // next image
         public void ShowNextImage()
         {
-            if (file_list == null || working_list == null) return;
-            current_file_index = (current_file_index + 1) % (working_list.Length);
+            if (file_list == null || search_list == null) return;
+            current_file_index = (current_file_index + 1) % (search_list.Length);
             image.Change_Image(GetCurrentFile());
         }
 
@@ -231,15 +241,15 @@ namespace ImageViewer2
         // prev image
         public void ShowPreviousImage()
         {
-            if (file_list == null || working_list == null) return;
-            current_file_index = (current_file_index - 1 + working_list.Length) % (working_list.Length);
+            if (file_list == null || search_list == null) return;
+            current_file_index = (current_file_index - 1 + search_list.Length) % (search_list.Length);
             image.Change_Image(GetCurrentFile());
         }
 
         // Refresh file list
         public void RefreshFileList()
         {
-            if (file_list == null || working_list == null) return;
+            if (file_list == null || search_list == null) return;
             FileInfo tmp = GetCurrentFile();
             GetFileList(tmp);
             //get_working_index(tmp); called by GetFileList(file)
@@ -249,23 +259,26 @@ namespace ImageViewer2
         // Rename current image
         public void RenameImage()
         {
-            if (file_list == null || working_list == null) return;
+            if (file_list == null || search_list == null) return;
             FileInfo tmp = GetCurrentFile();
 
-            using(RenameForm form = new RenameForm())
+            using (RenameForm form = new RenameForm())
             {
                 form.FileName = tmp.Name;
-                
+
                 if (form.ShowDialog() == DialogResult.OK)
                 {
 
                     FileInfo newfile = new FileInfo(tmp.DirectoryName + @"\" + form.FileName);
-                    
+
+                    if (tmp.Equals(newfile)) return;
+
                     if (newfile.Exists)
                     {
                         MessageBox.Show("New file name already exists");
                         return;
                     }
+
 
                     image.DisposeImage();
 
@@ -293,13 +306,46 @@ namespace ImageViewer2
 
         // TODO: Add delete image functionality
         // Delete current image
+        public void DeleteImage()
+        {
 
+            if (file_list == null || search_list == null) return;
+            FileInfo tmp = GetCurrentFile();
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this image", "Delete image", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                image.DisposeImage();
+
+                try
+                {
+                    File.Delete(tmp.FullName);
+                }
+                catch (Exception e)
+                {
+                    image.Change_Image(tmp);
+                    return;
+                }
+
+                ShowNextImage();
+
+                GetFileList(GetCurrentFile());
+            }
+            
+            //GetFileList(newfile); // refresh
+
+
+        }
 
 
 
         // TODO: Add seek functionality
-        // Seek into current working_list to any position
+        // Seek into current search_list to any position
+        public void SeekToImage()
+        {
 
+        }
 
 
 
@@ -322,21 +368,21 @@ namespace ImageViewer2
 
 
 
-    // search current directory list and update current working list
-    // if current image not in new list show first image in list
+        // search current directory list and update current working list
+        // if current image not in new list show first image in list
 
 
 
-    // clear search
+        // clear search
 
 
 
-    // text to display in titlebar of from
-    // [i/n] - image path - Zoom: zoom_value
-    public String get_form_text()
+        // text to display in titlebar of from
+        // [i/n] - image path - Zoom: zoom_value
+        public String get_form_text()
         {
-            if (working_list == null || file_list == null || image == null) return "";
-            else return "[" + (current_file_index + 1) + "/" + working_list.Length + "] " + file_list[working_list[current_file_index]].FullName + " - Zoom: " + image.get_zoom();
+            if (search_list == null || file_list == null || image == null) return "";
+            else return "[" + (current_file_index + 1) + "/" + search_list.Length + "] " + file_list[search_list[current_file_index]].FullName + " - Zoom: " + image.get_zoom();
         }
 
 

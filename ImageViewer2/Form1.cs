@@ -137,7 +137,7 @@ namespace ImageViewer2
         // delete current image
         private void button4_Click(object sender, EventArgs e)
         {
-            // open dialog box to ask for conformation
+            manager.DeleteImage();
         }
 
         // gif previous frame
@@ -176,9 +176,16 @@ namespace ImageViewer2
             gif_set_delay((int)numericUpDown1.Value);
         }
 
+        // Refresh button
         private void button9_Click(object sender, EventArgs e)
         {
             manager.RefreshFileList();
+        }
+
+        // Seek to image
+        private void button10_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
