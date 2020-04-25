@@ -121,6 +121,8 @@ namespace ImageViewer2
                 DirectoryInfo last_dir = file_list == null ? new DirectoryInfo(@"C:\") : file_list[0].Directory;
                 FileInfo last_file = null;
 
+                
+
                 if (file_list != null)
                 {
                     last_file = this.GetCurrentFile();
@@ -204,7 +206,10 @@ namespace ImageViewer2
                     tmp = tmp.OrderByDescending(p => p.CreationTimeUtc);
             }
             */
+
             file_list = tmp.ToArray();
+
+            Array.Sort(file_list, FileCompare);
 
             search_list = Enumerable.Range(0, file_list.Length).ToArray();
 
@@ -213,7 +218,7 @@ namespace ImageViewer2
             //imagefilepath = file_list[search_list[list_index]];
         }
 
-        // return index of file in search_list
+        // set and return index of file in search_list
         private int get_working_index(FileInfo file)
         {
             current_file_index = 0;
@@ -364,16 +369,66 @@ namespace ImageViewer2
 
     */
 
+        private int FileCompare(FileInfo f1, FileInfo f2)
+        {
+            return LexicographicStringComparer.Comparison(f1.Name, f2.Name);
+        }
+
 
 
 
         // search current directory list and update current working list
         // if current image not in new list show first image in list
 
+        public void SearchCurrent(String search_text)
+        {
+            if (file_list == null) return;
+
+
+            FileInfo tmp = GetCurrentFile();
+
+            List<int> list = new List<int>();
+
+            for(int i = 0; i < file_list.Length; i++)
+            {
+                // basic search 
+                // no regex
+                if (file_list[i].Name.Contains(search_text)) list.Add(i);
+            }
+
+            search_list = list.ToArray();
+            
+            UpdateImage(tmp);
+        }
 
 
         // clear search
 
+
+        public void clear_search()
+        {
+
+            FileInfo tmp = GetCurrentFile();
+
+            search_list = Enumerable.Range(0, file_list.Length).ToArray();
+
+            UpdateImage(tmp);
+        }
+
+
+        private void UpdateImage(FileInfo file_name)
+        {
+            int tmp = current_file_index;
+            get_working_index(file_name);
+
+            // If current file name does not equal given file name
+            // update image to first in array
+            if(file_name.Name.CompareTo(GetCurrentFile().Name) != 0)
+            {
+                image.Change_Image(GetFile(0));
+            }
+
+        }
 
 
         // text to display in titlebar of from

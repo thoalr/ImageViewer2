@@ -183,6 +183,7 @@ namespace ImageViewer2
         private void button9_Click(object sender, EventArgs e)
         {
             manager.RefreshFileList();
+            update_form_text();
         }
 
         // Seek to image

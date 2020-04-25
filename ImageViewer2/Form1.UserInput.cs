@@ -68,10 +68,17 @@ namespace ImageViewer2
         {
             if(textBox1.Focused)
             {
-                if(textBox1.Text.Length > 0)
-                {
+
                     // search
-                }
+                    if(keyData == Keys.Enter)
+                    {
+
+                        if (textBox1.Text.Length > 0)
+                            manager.SearchCurrent(textBox1.Text);
+                        else
+                            manager.clear_search();
+                        pictureBox1.Invalidate();
+                    }
             }
             else
             {
