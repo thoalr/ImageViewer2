@@ -1,4 +1,7 @@
-﻿using System;
+﻿// https://gist.github.com/mstum/63a6e3e8cf54e8ae55b6aa28ca6f20c5
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

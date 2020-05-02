@@ -51,6 +51,9 @@ namespace ImageViewer2
             listView1.Items[(int)numericUpDown1.Value - 1].Focused = true;
             listView1.Items[(int)numericUpDown1.Value - 1].Selected = true;
 
+
+            listView1.EnsureVisible((int)numericUpDown1.Value - 1);
+
         }
 
 
@@ -64,6 +67,9 @@ namespace ImageViewer2
 
             listView1.Items[(int)numericUpDown1.Value - 1].Focused = true;
             listView1.Items[(int)numericUpDown1.Value - 1].Selected = true;
+
+
+            listView1.EnsureVisible((int)numericUpDown1.Value - 1);
 
         }
 
