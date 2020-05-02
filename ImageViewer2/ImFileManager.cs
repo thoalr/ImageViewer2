@@ -348,7 +348,41 @@ namespace ImageViewer2
         // Seek into current search_list to any position
         public void SeekToImage()
         {
+            if (file_list == null || search_list == null) return;
+            //FileInfo tmp = GetCurrentFile();
 
+            using (SeekForm form = new SeekForm())
+            {
+                // max index needs to be set before index
+                form.MaxIndex = search_list.Length;
+
+                form.Index = current_file_index + 1;
+                
+
+
+                List<FileInfo> tmplist = new List<FileInfo>();
+
+                foreach(int indexer in search_list)
+                {
+                    tmplist.Add(file_list[indexer]);
+                }
+
+
+                form.SetFileList(tmplist);
+
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+
+
+                    current_file_index = (int)form.Index - 1;
+
+                    image.Change_Image(GetCurrentFile());
+
+
+
+                }
+            }
         }
 
 

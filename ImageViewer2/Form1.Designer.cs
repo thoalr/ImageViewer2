@@ -291,6 +291,7 @@
             this.MinimumSize = new System.Drawing.Size(690, 230);
             this.Name = "Form1";
             this.Text = "ImageViewer";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress_1);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

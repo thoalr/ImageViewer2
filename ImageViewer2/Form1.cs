@@ -189,6 +189,14 @@ namespace ImageViewer2
         // Seek to image
         private void button10_Click(object sender, EventArgs e)
         {
+            manager.SeekToImage();
+            pictureBox1.Invalidate();
+            update_form_text();
+            
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
         }
     }
