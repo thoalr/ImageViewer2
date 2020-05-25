@@ -2,11 +2,16 @@
 Image viewer built in c# based on Bitmap class.
 
 Implemented Functionality
+
 Rename
 
-
-
-Planned Functionality
 Search
+
+Windows like file order
+
+Delete
+
+GIF controls
+
 
 
